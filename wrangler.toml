@@ -1,0 +1,7 @@
+name = "ipfs-file"
+main = "worker.js"
+compatibility_date = "2025-08-08"
+keep_vars = true
+
+[observability]
+enabled = true
