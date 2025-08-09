@@ -1,0 +1,2 @@
+本项目为Cloud-Mail项目的附属项目
+将该项目部署到cloudflare workers，并且添加两个变量：API_URL,IPFS_URL即可
