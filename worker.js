@@ -18,7 +18,7 @@ export default {
         const ipfsFormData = new FormData();
         ipfsFormData.append('file', file);
         
-        const ipfsResponse = await fetch(`${env.URL}/upload`, {
+        const ipfsResponse = await fetch(`https://${env.API_URL}/upload`, {
           method: 'POST',
           body: ipfsFormData
         });
@@ -28,14 +28,14 @@ export default {
         }
         
         const ipfsData = await ipfsResponse.json();
-        const web2url = ipfsData.web2url;
+        const cid = ipfsData.cid;
         
         // Store key-cid pair in KV
-        await env.kv.put(key, web2url);
+        await env.kv.put(key, cid);
         
         return new Response(JSON.stringify({
           status: 'ok',
-          web2url,
+          cid,
           key
         }), {
           headers: { 'Content-Type': 'application/json' }
@@ -54,10 +54,10 @@ export default {
         });
       }
       const path = url.pathname.slice(1); // Remove leading '/'
-      const web2url = await env.kv.get(path);
+      const cid = await env.kv.get(path);
       
-      if (web2url) {
-        return Response.redirect(web2url, 302);
+      if (cid) {
+        return Response.redirect(`https://${env.IPFS_URL}/ipfs/${cid}`, 302);
       }
     }
     
